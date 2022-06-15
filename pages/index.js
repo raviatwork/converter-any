@@ -1,5 +1,7 @@
+import { Text } from "@chakra-ui/react";
+
 function HomePage() {
-    return <div>Welcome to Next.js!</div>
-  }
-  
-  export default HomePage
+  return <Text color="red.500">Welcome to Next.js!</Text>;
+}
+
+export default HomePage;
