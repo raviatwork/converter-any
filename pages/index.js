@@ -1,7 +1,11 @@
-import { Text } from "@chakra-ui/react";
+import { BirthDayCalculator } from "../components/Calculators";
 
 function HomePage() {
-  return <Text color="red.500">Welcome to Next.js!</Text>;
+  return (
+    <>
+      <BirthDayCalculator />
+    </>
+  );
 }
 
 export default HomePage;
