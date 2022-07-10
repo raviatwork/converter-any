@@ -1,10 +1,13 @@
+import React from "react";
 import { Flex, Spacer, Box, Heading, ButtonGroup, Button } from "@chakra-ui/react";
 
 export default function Navbar() {
   return (
-    <Flex minWidth="max-content" alignItems="center" gap="2" p="2">
+    <Flex minWidth="max-content" alignItems="center" gap="2" p="2" bg="Teal">
       <Box p="2">
-        <Heading size="md">Convertion App</Heading>
+        <Heading size="md" color="white">
+          CountDown Date
+        </Heading>
       </Box>
       <Spacer />
       <ButtonGroup gap="2">

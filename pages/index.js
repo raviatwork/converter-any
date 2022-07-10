@@ -1,11 +1,8 @@
-import { BirthDayCalculator } from "../components/Calculators";
+import React from "react";
+import { BirthDayCountDown } from "../src/components/CountDowns";
 
 function HomePage() {
-  return (
-    <>
-      <BirthDayCalculator />
-    </>
-  );
+  return <BirthDayCountDown />;
 }
 
 export default HomePage;

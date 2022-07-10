@@ -1,10 +1,8 @@
 // pages/_app.js
-import { ChakraProvider } from "@chakra-ui/react";
-
-// 1. Import the extendTheme function
-import { extendTheme } from "@chakra-ui/react";
-
-import Layout from "../components/layout";
+import React from "react";
+import { ChakraProvider, extendTheme } from "@chakra-ui/react";
+import Layout from "../src/components/layout";
+import "../Styles/global.css";
 
 // 2. Extend the theme to include custom colors, fonts, etc
 const colors = {

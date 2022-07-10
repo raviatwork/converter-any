@@ -50,3 +50,5 @@ export const appConstants = {
     },
   ],
 };
+
+export default {};
