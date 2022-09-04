@@ -3,15 +3,17 @@ import {
   FormControl,
   FormLabel,
   Select,
-  Input,
+  // Input,
   Stack,
   Box,
   Text,
   WrapItem,
   Button,
+  Flex,
 } from "@chakra-ui/react";
 import Image from "next/image";
 import { appConstants } from "../../utils/constants";
+import Adsense from "../adsense";
 
 const defaultValues = [
   {
@@ -66,13 +68,16 @@ const getDiff = (dateFuture, dateNow) => {
 
 function BirthDayCountDown() {
   const timeRef = useRef(null);
+  // const [name, setName] = useState("");
   const [countDown, setCountDown] = useState([...defaultValues]);
   const [month, setMonth] = useState(appConstants.months[new Date().getMonth()].month);
   const [date, setDate] = useState(new Date().getDate());
-  const [year, setYear] = useState(new Date().getFullYear());
+  const [selectedDate, setSelectedDate] = useState();
+  // const [year, setYear] = useState(new Date().getFullYear());
   useEffect(() => {
-    setInterval(() => {
-      setCountDown(getDiff(new Date("07/20/2022"), new Date()));
+    setSelectedDate(`December, 31 ${new Date().getFullYear()}`);
+    timeRef.current = setInterval(() => {
+      setCountDown(getDiff(new Date(`December, 31 ${new Date().getFullYear()}`), new Date()));
     }, 1000);
     return () => {
       if (timeRef.current) {
@@ -83,16 +88,27 @@ function BirthDayCountDown() {
   const days = useMemo(() => {
     return appConstants.months.find((item) => item.month === month).days;
   }, [month]);
+  const submitHandler = () => {
+    clearInterval(timeRef.current);
+    const diff = new Date(`${month}, ${date} ${new Date().getFullYear()}`) - new Date();
+    const newDate = `${month}, ${date} ${
+      diff < 0 ? new Date().getFullYear() + 1 : new Date().getFullYear()
+    }`;
+    setSelectedDate(newDate);
+    timeRef.current = setInterval(() => {
+      setCountDown(getDiff(new Date(newDate), new Date()));
+    }, 1000);
+  };
   return (
     <Stack spacing="24px" mx={{ base: 20, xs: 0, lg: 20 }}>
-      <Text fontWeight="bold" fontSize="2xl" textAlign="center">
+      <Text fontWeight="bold" fontSize="2xl" textAlign="">
         Birthday CountDown
       </Text>
       <Stack
-        bg="white"
+        // bg="white"
         p="15"
         borderRadius="5"
-        border="1px solid #c4c4c4"
+        // border="1px solid #c4c4c4"
         boxShadow="xl"
         spacing="24px"
         direction={["column", "row"]}>
@@ -103,16 +119,17 @@ function BirthDayCountDown() {
           p={["0 0 2rem 0", "2rem"]}
           borderRight={["none", "1px solid #c4c4c4"]}
           borderBottom={["1px solid #c4c4c4", "none"]}>
-          <FormControl>
+          {/* <FormControl>
             <FormLabel htmlFor="country">Name</FormLabel>
             <Input
-              value=""
+              value={name}
               id="name"
-              onChange={() => {}}
+              onChange={({ target }) => setName(target.value)}
               variant="outline"
-              placeholder="Enter name..."
+              placeholder="Name to display.."
+              maxLength={22}
             />
-          </FormControl>
+          </FormControl> */}
           <FormControl>
             <FormLabel htmlFor="month">Month</FormLabel>
             <Select id="month" value={month} onChange={({ target }) => setMonth(target.value)}>
@@ -133,7 +150,7 @@ function BirthDayCountDown() {
               ))}
             </Select>
           </FormControl>
-          <FormControl>
+          {/* <FormControl>
             <FormLabel htmlFor="country">Year</FormLabel>
             <Input
               value={year}
@@ -142,27 +159,42 @@ function BirthDayCountDown() {
               variant="outline"
               placeholder="Year"
             />
-          </FormControl>
+          </FormControl> */}
           <WrapItem justifyContent="end">
-            <Button colorScheme="teal">SUBMIT</Button>
+            <Button colorScheme="teal" onClick={() => submitHandler()}>
+              SUBMIT
+            </Button>
           </WrapItem>
         </Stack>
         <Stack w={["100%", "50%"]} p={[0, "2rem"]}>
           <Box>
-            <Text
-              textAlign="center"
-              fontWeight="bold"
-              fontSize="xl"
-              textDecor="underline"
-              textColor="red.700">
-              Kushi&apos;s Birthday will be in
-            </Text>
+            {/* {name && (
+              <Text
+                textAlign="center"
+                fontWeight="bold"
+                fontSize="xl"
+                textDecor="underline"
+                textColor="red.700">
+                {name ? `${name}'s Birthday` : "New Year"} will be in
+              </Text>
+            )} */}
+            <Flex justify="space-between">
+              <Text>
+                <strong>From:</strong> {appConstants.months[new Date().getMonth()].month},{" "}
+                {new Date().getDate()}, {new Date().getFullYear()}
+              </Text>
+              <Text>
+                <strong>To:</strong> {selectedDate}
+              </Text>
+            </Flex>
             <Stack direction={["row"]}>
               {countDown.map(({ key, value }, idx) => (
                 <Box key={key} w="25%" display="flex" justifyContent="space-evenly">
                   <Box mr={idx !== countDown.length - 1 ? 4 : 0} textAlign="center">
                     <Text fontSize={36} fontWeight="bold">
-                      {`0${Math.floor(value)}`.slice(-2)}
+                      {`${Math.round(value)}`.length === 1
+                        ? `0${Math.floor(value)}`
+                        : Math.floor(value)}
                     </Text>
                     <Text fontSize={12}>{key}</Text>
                   </Box>
@@ -178,6 +210,7 @@ function BirthDayCountDown() {
           </Box>
         </Stack>
       </Stack>
+      <Adsense />
     </Stack>
   );
 }

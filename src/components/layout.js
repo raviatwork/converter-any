@@ -9,7 +9,7 @@ export default function Layout({ children }) {
     <>
       <Navbar />
       <Box
-        h="calc(100vh - 120px)"
+        minHeight="calc(100vh - 120px)"
         w={["100%", "100%", "100%", "100%", "1200px!important"]}
         margin="auto"
         p={["2", "5"]}
